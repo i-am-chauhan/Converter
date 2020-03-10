@@ -162,16 +162,17 @@ object HandleCommonJsModules extends TreeTransformationScopedChanges {
 
             override def leaveTsDeclNamespace(t: Unit)(x: TsDeclNamespace): TsDeclNamespace = {
               /* workaround for this pattern, which ends up as `type Compiler = Compiler`
-              * namespace webpack {
-              *   interface Compiler {}
-              *   namespace compiler {
-              *     type Compiler = webpack.Compiler
-              *   }
-              * }
-              * export = webpack;
-              * */
+               * namespace webpack {
+               *   interface Compiler {}
+               *   namespace compiler {
+               *     type Compiler = webpack.Compiler
+               *   }
+               * }
+               * export = webpack;
+               * */
               val newMembers = x.members.filter {
-                case TsDeclTypeAlias(_, _, name, _, TsTypeRef(_, TsQIdent(IArray.exactlyOne(name2)), _), _) => name2 =/= name
+                case TsDeclTypeAlias(_, _, name, _, TsTypeRef(_, TsQIdent(IArray.exactlyOne(name2)), _), _) =>
+                  name2 =/= name
                 case _ => true
               }
               x.copy(members = newMembers)

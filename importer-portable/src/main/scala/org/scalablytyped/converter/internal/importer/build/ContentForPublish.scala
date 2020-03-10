@@ -64,7 +64,6 @@ object ContentForPublish {
     baos.toByteArray
   }
 
-
   def ivy(v: Versions, p: SbtProject, publication: ZonedDateTime, externalDeps: Set[Dep]): Elem = {
     val artifactName = p.reference.mangledArtifact(v)
     <ivy-module version="2.0" xmlns:e="http://ant.apache.org/ivy/extra">
